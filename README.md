@@ -1,10 +1,3 @@
-Tabii, Taha! Şimdi **proje yapısını** ve şu ana kadar yaptıklarınızı **Türkçe** olarak düzenleyeceğim. Ayrıca, **`check_data.py`**, **`clean_classes.py`**, **`dataset_1_to_cube.py`** gibi dosyaların da proje yapısına dahil edildiğinden emin olacağım.
-
-İşte **güncellenmiş `README.md` dosyası**:
-
----
-
-```markdown
 # Küp Algılama ile YOLOv8-OBB Eğitimi
 
 Bu proje, **YOLOv8-OBB** modelini kullanarak görsellerde **küp** tespiti yapmayı amaçlamaktadır. **Roboflow** ve **Kaggle** üzerinden alınan verilerle model eğitilmiş ve **data augmentation** teknikleri kullanılarak doğruluk artırılmaya çalışılmıştır.
