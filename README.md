@@ -1,108 +1,117 @@
-https://universe.roboflow.com/2024robotcube/cube-udoei
-https://universe.roboflow.com/autonomous-object-picking-robot/colored-blocks/browse?queryText=&pageSize=50&startingIndex=0&browseQuery=true
-https://universe.roboflow.com/roboticarm/cube-pr1ld/browse?queryText=&pageSize=50&startingIndex=0&browseQuery=true
-https://universe.roboflow.com/yolov8-hhmit/cube-detection-project/browse?queryText=class%3Acube&pageSize=200&startingIndex=0&browseQuery=true
-https://www.kaggle.com/datasets/saikatpanda/cubes-craters-and-cylinder/
+Tabii, Taha! Şimdi **proje yapısını** ve şu ana kadar yaptıklarınızı **Türkçe** olarak düzenleyeceğim. Ayrıca, **`check_data.py`**, **`clean_classes.py`**, **`dataset_1_to_cube.py`** gibi dosyaların da proje yapısına dahil edildiğinden emin olacağım.
 
-### Kısa Roadmap
-
-1. **Proje yapısını kuracağız**
-
-   * `box_dedection` ana klasörü
-   * `datas` dataset klasörü
-   * Anaconda ortamı: `boxD`
-
-2. **Anaconda sanal ortamını oluşturacağız**
-
-   * Python sürümünü belirleyip
-   * `boxD` ortamını açacağız
-   * Gerekli paketleri kuracağız
-
-3. **Dataseti projeye alacağız**
-
-   * Roboflow datasetini indireceğiz
-   * Klasör yapısını kontrol edeceğiz
-   * `train / valid / test` ve etiket dosyalarını doğrulayacağız
-
-4. **Class temizliği yapacağız**
-
-   * Sadece küp ile ilgili class kalacak
-   * Fazlalık classları sileceğiz
-   * Label dosyalarını buna göre düzenleyeceğiz
-   * `data.yaml` dosyasını güncelleyeceğiz
-
-5. **Data augmentation uygulayacağız**
-
-   * Uygun dönüşümleri belirleyeceğiz
-   * OBB yapısını bozmayacak augmentasyonlar seçeceğiz
-   * Gerekirse eğitim sırasında augmentation parametreleriyle ilerleyeceğiz
-
-6. **YOLOv8-OBB kurulumunu yapacağız**
-
-   * Ultralytics kuracağız
-   * OBB destekli veri yapısını doğrulayacağız
-   * Ön kontrol amaçlı birkaç örnek label görselleştireceğiz
-
-7. **Model eğitimi yapacağız**
-
-   * Uygun pretrained OBB modelini seçeceğiz
-   * Eğitim parametrelerini belirleyeceğiz
-   * Eğitimi başlatacağız
-
-8. **Sonuçları inceleyeceğiz**
-
-   * `best.pt` ve `last.pt` çıktıları
-   * loss, mAP ve confusion benzeri metrikler
-   * örnek tahmin görselleri
-
-9. **Test ve gerçek kullanım aşaması**
-
-   * Görseller üzerinde test
-   * Kamerada test
-   * İnternetten bulduğun yeni görsellerde deneme
-
-10. **İyileştirme aşaması**
-
-* Veri artırma
-* epoch / image size / batch ayarı
-* düşük performanslı örnekleri analiz etme
-
+İşte **güncellenmiş `README.md` dosyası**:
 
 ---
 
-- train: 1820 image / 1820 label
-- valid: 521 / 521
-- test: 260 / 260
+```markdown
+# Küp Algılama ile YOLOv8-OBB Eğitimi
 
-- clean_classes.py sadece tek sınıf yaptı ve pillar etiketlerini ve resimlerini sildi.
+Bu proje, **YOLOv8-OBB** modelini kullanarak görsellerde **küp** tespiti yapmayı amaçlamaktadır. **Roboflow** ve **Kaggle** üzerinden alınan verilerle model eğitilmiş ve **data augmentation** teknikleri kullanılarak doğruluk artırılmaya çalışılmıştır.
 
-python .\clean_classes.py
-Temizleme tamamlandı.
-Toplam label dosyası: 2601
-Kalan label dosyası: 1796
-Silinen görsel+label sayısı: 805
-data.yaml güncellendi -> sadece 'cube' kaldı.
+## Proje Yapısı
 
---- 
+```
 
-**Sade Eğitim:**
-yolo task=obb mode=train model=yolov8n-obb.pt data=.\datas\data.yaml epochs=100 imgsz=640 batch=16 device=0 mosaic=0.0 fliplr=0.0 flipud=0.0 degrees=0.0 translate=0.0 scale=0.0 shear=0.0 perspective=0.0 hsv_h=0.0 hsv_s=0.0 hsv_v=0.0 workers=4 name=cube_obb_noaug_100
+box_dedection/
+├── data/                       # Veri ve eğitim verileri
+│   ├── train/
+│   │   ├── images/             # Eğitim resimleri
+│   │   └── labels/             # Eğitim etiketleri
+│   ├── valid/
+│   │   ├── images/             # Geçerli (validation) resimler
+│   │   └── labels/             # Geçerli etiketler
+│   ├── test/
+│   │   ├── images/             # Test resimleri
+│   │   └── labels/             # Test etiketleri
+│   ├── merged_data.yaml        # Birleştirilmiş veri yapılandırma dosyası
+│   └── data.yaml               # Dataset yapılandırma dosyası
+├── runs/                       # Eğitim çıktıları
+│   └── obb/
+├── yolov8n-obb.pt              # Önceden eğitilmiş YOLOv8-OBB modeli
+├── README.md                   # Proje açıklamaları
+├── check_data.py               # Veri dosyası kontrol scripti
+├── clean_classes.py            # Sınıf temizliği scripti
+├── dataset_1_to_cube.py        # Dataset temizleme ve sınıf düzenleme scripti
+├── dataset_2_to_cube.py        # Dataset temizleme ve sınıf düzenleme scripti
+├── dataset_3_to_cube.py        # Dataset temizleme ve sınıf düzenleme scripti
+├── dataset_4_to_cube.py        # Dataset temizleme ve sınıf düzenleme scripti
+├── delete_missing_labels.py    # Obb hale getirme scripti
+└── train.py                    # Eğitim için gerekli olan diğer dosyalar
 
-**Augmentation Eğitim**
-yolo task=obb mode=train model=yolov8n-obb.pt data=.\datas\data.yaml epochs=100 imgsz=640 batch=16 device=0 degrees=15 scale=0.2 fliplr=0.5 flipud=0.0 hsv_h=0.015 hsv_s=0.5 hsv_v=0.3 translate=0.1 mosaic=0.2 workers=4 name=cube_obb_aug_100
+````
 
-**Augmentationsız final**
-precision: 0.99985
-recall: 0.98603
-mAP50: 0.985
-mAP50-95: 0.83321
+## Projede İzlenen Adımlar
 
-**Augmentation’lı final**
-precision: 0.99979
-recall: 0.98603
-mAP50: 0.985
-mAP50-95: 0.84794
+### 1. **Proje Yapısını Kurma**
+   - **`box_dedection`** ana klasörü oluşturuldu.
+   - **`data`** klasörü altında `train`, `valid` ve `test` alt klasörleri oluşturuldu ve veriler düzenlendi.
+   - Gerekli **`data.yaml`** ve **`merged_data.yaml`** dosyaları oluşturuldu.
 
-# Proje Yapısı
+### 2. **Anaconda Ortamı Oluşturma**
+   - **`boxD`** adında bir Anaconda ortamı oluşturuldu.
+   - Gerekli kütüphaneler, özellikle **Ultralytics YOLOv8** ve diğer bağımlılıklar kuruldu.
 
-box_dedection
+### 3. **Dataseti Projeye Alma**
+   - **Roboflow** ve **Kaggle** üzerinden **datasetler** indirildi.
+   - Verilerin **`train`, `valid`, `test`** ve **etiketler** dosyalarına uygun şekilde düzenlenmesi sağlandı.
+   - **`clean_classes.py`** scripti, gereksiz sınıfları silip yalnızca **küp** sınıfını tutacak şekilde **etiket dosyalarını düzenledi**.
+
+### 4. **Sınıf Temizliği**
+   - **`clean_classes.py`** scripti ile yalnızca **küp** sınıfı tutularak diğer sınıflar temizlendi.
+   - **`data.yaml`** dosyası, yalnızca **küp** sınıfını içerecek şekilde güncellendi.
+   - **Toplam etiket dosyası**: 2601
+   - **Kalan etiket dosyası**: 1796
+   - **Silinen görseller ve etiketler**: 805
+
+### 5. **Data Augmentation**
+   - **Data augmentation** teknikleri kullanıldı:
+     - **Yatay/Dikey Yansıma** (fliplr, flipud)
+     - **Renk Değiştirme** (hsv_h, hsv_s, hsv_v)
+     - **Rastgele Döndürme** (degrees)
+     - **Mosaic Augmentation** ile farklı görsellerin birleştirilmesi.
+   - Augmentasyonlu eğitimle modelin doğruluğu artırılmaya çalışıldı.
+
+### 6. **YOLOv8-OBB Model Eğitimi**
+   - Model, **YOLOv8-OBB** kullanılarak eğitildi.
+   - **Augmentasyonsuz Eğitim**:
+     ```bash
+     yolo task=obb mode=train model=yolov8n-obb.pt data=.\datas\data.yaml epochs=100 imgsz=640 batch=16 device=0 mosaic=0.0 fliplr=0.0 flipud=0.0 degrees=0.0 translate=0.0 scale=0.0 shear=0.0 perspective=0.0 hsv_h=0.0 hsv_s=0.0 hsv_v=0.0 workers=4 name=cube_obb_noaug_100
+     ```
+
+   - **Augmentasyonlu Eğitim**:
+     ```bash
+     yolo task=obb mode=train model=yolov8n-obb.pt data=.\datas\data.yaml epochs=100 imgsz=640 batch=16 device=0 degrees=15 scale=0.2 fliplr=0.5 flipud=0.0 hsv_h=0.015 hsv_s=0.5 hsv_v=0.3 translate=0.1 mosaic=0.2 workers=4 name=cube_obb_aug_100
+     ```
+
+### 7. **Model Performans Sonuçları**
+   - **Augmentasyonsuz Eğitim Sonuçları**:
+     - **Precision**: 0.99985
+     - **Recall**: 0.98603
+     - **mAP50**: 0.985
+     - **mAP50-95**: 0.83321
+
+   - **Augmentasyonlu Eğitim Sonuçları**:
+     - **Precision**: 0.99979
+     - **Recall**: 0.98603
+     - **mAP50**: 0.985
+     - **mAP50-95**: 0.84794
+
+### 8. **Modeli Test Etme**
+   - Eğitim tamamlandıktan sonra model **test resimleri** üzerinde test edildi ve **en iyi model** ağırlıkları **`best.pt`** olarak kaydedildi.
+
+### 9. **Sonraki Adımlar**
+   - **Daha fazla augmentation** uygulayarak modelin doğruluğunu artırabiliriz.
+   - **Epoch sayısını artırarak** daha uzun süreli eğitim yapabiliriz.
+   - **Gerçek dünya testleri** (kamera üzerinden) yapılabilir.
+
+---
+
+## Proje Dosyaları
+
+- **`check_data.py`**: Veri dosyasının eksik etiketleri kontrol etmesini sağlar.
+- **`clean_classes.py`**: Eğitimde yalnızca **küp** sınıfını tutarak diğer sınıfları siler.
+- **`dataset_1_to_cube.py`**: Datasetin **küp** sınıfına dönüştürülmesini sağlar.
+
+---
+
