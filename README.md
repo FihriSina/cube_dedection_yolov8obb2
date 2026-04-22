@@ -1,4 +1,8 @@
 https://universe.roboflow.com/2024robotcube/cube-udoei
+https://universe.roboflow.com/autonomous-object-picking-robot/colored-blocks/browse?queryText=&pageSize=50&startingIndex=0&browseQuery=true
+https://universe.roboflow.com/roboticarm/cube-pr1ld/browse?queryText=&pageSize=50&startingIndex=0&browseQuery=true
+https://universe.roboflow.com/yolov8-hhmit/cube-detection-project/browse?queryText=class%3Acube&pageSize=200&startingIndex=0&browseQuery=true
+https://www.kaggle.com/datasets/saikatpanda/cubes-craters-and-cylinder/
 
 ### Kısa Roadmap
 
@@ -98,3 +102,7 @@ precision: 0.99979
 recall: 0.98603
 mAP50: 0.985
 mAP50-95: 0.84794
+
+# Proje Yapısı
+
+box_dedection
